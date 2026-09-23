@@ -11,6 +11,23 @@ historical instance of that spread on a common expiry-relative axis.
 ## Notation
 
 ```
+
+Recall your contract letters:
+
+F ~ Jan
+G ~ Feb
+H ~ Mar
+J ~ Apr
+K ~ May
+M ~ Jun
+N ~ Jul
+Q ~ Aug
+U ~ Sep
+V ~ Oct
+X ~ Nov
+Z ~ Dec
+
+
 CL[J][K0]        long 1 CL April, short 1 CL May
 GC[X][Z1]        long 1 GC Nov, short 1 GC Dec of the NEXT year
 NG[J][X0][Z0]    long 1 Apr, short 2 Nov, long 1 Dec   (1, -2, 1)
