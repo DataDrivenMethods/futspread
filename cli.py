@@ -172,6 +172,12 @@ def main(argv=None):
                                'display.max_rows', 200):
             print(out.to_string(index=False))
 
+    elif a.cmd == 'months':
+        listed = traded_months(load_contracts(a.ticker, a.root))
+        liquid = liquid_months(a.ticker, a.root)
+        print(f'{a.ticker.upper()}  listed: {" ".join(listed)}')
+        print(f'{" " * len(a.ticker)}  liquid: {" ".join(liquid)}')
+
     elif a.cmd == 'liquidity':
         g = month_liquidity(a.ticker, a.root, a.since_year, a.metric)
         g = g[['code', 'n', 'med_peak', 'med_days', 'share']]

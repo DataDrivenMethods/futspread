@@ -5,7 +5,9 @@
     <root>/combos/<TICKER>/<safe>.parquet every instance of one combo, stacked
 
 The raw tree is written once by the downloader; everything downstream reads
-the combos tree, which is small enough to load on the fly.
+the combos tree, which is small enough to load on the fly.  Anything derived
+(caches, runs, reports) goes under $FUTSPREAD_OUTPUT, default
+<repo>/output, so the data root holds data only.
 """
 from __future__ import annotations
 
@@ -16,6 +18,15 @@ import pandas as pd
 
 DEFAULT_ROOT = Path(os.environ.get(
     'FUTSPREAD_ROOT', Path.home() / 'futspread_data'))
+
+
+# Derived files (scan caches, runs, reports) live in the repo, never in the data root.
+OUTPUT_ROOT = Path(os.environ.get(
+    'FUTSPREAD_OUTPUT', Path(__file__).resolve().parent / 'output'))
+
+
+def output_path(*parts) -> Path:
+    return OUTPUT_ROOT.joinpath(*parts)
 
 
 def root_path(root=None) -> Path:

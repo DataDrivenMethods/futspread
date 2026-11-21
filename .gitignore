@@ -4,3 +4,7 @@ __pycache__/
 venv/
 *.egg-info/
 .ipynb_checkpoints/
+output/
+strategy/
+spreadbook/
+calspread/

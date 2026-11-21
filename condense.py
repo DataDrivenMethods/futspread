@@ -63,6 +63,10 @@ def overlay(df, window=(-40, -15), axis='td_to_ltd', price='settlement',
 
     wide = sub.pivot_table(index=axis, columns='instance', values=price)
     wide = wide.reindex(range(int(lo), int(hi) + 1))
+    if axis == 'cal_to_ltd':
+        # Weekends and holidays have no settlement on a calendar-day axis;
+        # the position is still held at its last settlement, so carry it.
+        wide = wide.ffill(limit=5)
 
     if require_full:
         span = hi - lo + 1

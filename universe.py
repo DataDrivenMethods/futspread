@@ -75,9 +75,65 @@ _ROWS = [
     (4755, 'LBR', 'Lumber (2022 respec)',       'lumber',    'CME',        27500, 'board ft'),
 ]
 
+
+# USD per 1.00 of quoted settlement, i.e. what one lot makes when the quote
+# moves by one unit.  Checked against the price levels in the feed: grains,
+# softs, livestock and ZL quote in cents; ZM and CC in USD per ton; ZR in
+# cents/cwt; 6J in USD per 100 JPY; rates in points of par; DC in USD/cwt;
+# lumber in USD per 1,000 board feet.
+POINT_VALUE = {
+    'CL': 1000,
+    'NG': 10000,
+    'HO': 42000,
+    'RB': 42000,
+    'GC': 100,
+    'SI': 5000,
+    'HG': 25000,
+    'PL': 50,
+    'PA': 100,
+    'ZC': 50,
+    'ZW': 50,
+    'ZS': 50,
+    'ZL': 600,
+    'ZM': 100,
+    'ZO': 50,
+    'ZR': 20,
+    'KE': 50,
+    'SB': 1120,
+    'KC': 375,
+    'CC': 10,
+    'CT': 500,
+    'OJ': 150,
+    'LE': 400,
+    'HE': 400,
+    'GF': 500,
+    '6E': 125000,
+    '6J': 125000,
+    '6C': 100000,
+    '6S': 125000,
+    'BRN': 1000,
+    'G': 100,
+    'ARE': 1000,
+    'RBB': 1000,
+    'HOB': 1000,
+    'GZ': 1000,
+    'ES': 50,
+    'NQ': 20,
+    'RTY': 50,
+    'ZT': 2000,
+    'ZF': 1000,
+    'ZN': 1000,
+    'ZB': 1000,
+    'UB': 1000,
+    'DC': 2000,
+    'LBS': 110,
+    'LBR': 27.5,
+}
+
 UNIVERSE = pd.DataFrame(
     _ROWS, columns=['contrcode', 'ticker', 'name', 'sector', 'exchange',
                    'lot_size', 'unit'])
+UNIVERSE['point_value'] = UNIVERSE['ticker'].map(POINT_VALUE).astype(float)
 
 
 def universe(sectors=None, tickers=None) -> pd.DataFrame:
@@ -96,3 +152,7 @@ def contrcode_for(ticker: str) -> int:
         raise KeyError(f'{ticker!r} is not in the curated universe; '
                        'add its contrcode to futspread/universe.py')
     return int(hit['contrcode'].iloc[0])
+
+
+def point_value(ticker: str) -> float:
+    return float(POINT_VALUE[ticker.upper()])
